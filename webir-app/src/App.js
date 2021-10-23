@@ -3,7 +3,17 @@ import "./App.css";
 import React, { useState } from "react";
 
 function App() {
-  const [sku, setSku] = useState("");
+  const extractMLU = (link) => {
+    let regexToMatchMLU = /MLU-\d+/;
+    var arr = regexToMatchMLU.exec(link);
+    if (arr) {
+      let mluNumber = arr[0].slice(4, arr[0].length);
+      setMlu(mluNumber);
+      console.log(mluNumber);
+    }
+  };
+  const [mlu, setMlu] = useState("");
+  const [link, setLink] = useState("");
   const fetchProduct = (mlu) => {
     fetch("https://api.mercadolibre.com/items/MLU" + mlu)
       .then((res) => {
@@ -21,15 +31,38 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>CAMEL CAMEL CAMEL para MercadoLibre</p>
-        <p>Ingrese sku del producto a notificar:</p>
-        <div style={{ display: "flex", alignItems: "center", gap: "1vh" }}>
+        <p>Ingrese sku o link del producto a notificar:</p>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "1vh",
+            height: "3vh",
+            width: "25vw",
+          }}
+        >
           <input
+            style={{ height: "90%" }}
             type="text"
-            style={{ height: "2vh", width: "20vw" }}
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
+            value={mlu}
+            onChange={(e) => setMlu(e.target.value)}
+            placeholder={"MLU"}
           />
-          <button onClick={() => fetchProduct(sku)}> Buscar </button>
+          <br />
+          <input
+            style={{ height: "90%" }}
+            type="text"
+            value={link}
+            onChange={(e) => {
+              setLink(e.target.value);
+              extractMLU(e.target.value);
+            }}
+            placeholder={"Link"}
+          />
+          <button style={{ height: "100%" }} onClick={() => fetchProduct(mlu)}>
+            Buscar
+          </button>
           <br />
         </div>
         <a
