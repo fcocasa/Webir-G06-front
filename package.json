@@ -1,0 +1,19 @@
+{
+  "name": "webir-g06-front",
+  "version": "1.0.0",
+  "description": "Frontend de Webir-G06",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-Borba/Webir-G06-front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/M-Borba/Webir-G06-front/issues"
+  },
+  "homepage": "https://github.com/M-Borba/Webir-G06-front#readme"
+}
