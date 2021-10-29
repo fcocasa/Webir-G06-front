@@ -38,7 +38,6 @@ class Product extends Component {
   }
 
   sendSuscription(email, sku, dropPrice) {
-    // Simple GET request using fetch
     const requestOptions = {
       method: 'POST',
       mode: 'no-cors',
@@ -50,11 +49,9 @@ class Product extends Component {
           const isJson = response.headers.get('content-type')?.includes('application/json');
           const data = isJson && await response.json();
 
-          // check for error response
           if (response.ok) {
             this.setState({ requestResult: "Operacion exitosa", showPopup:true })
           } else {
-              // get error message from body or default to response status
               this.setState({ requestResult: "Error de operación" , showPopup:true })
               const error = (data && data.message) || response.status;
               return Promise.reject(error);
@@ -158,12 +155,10 @@ class App extends Component {
     const { busqueda2 } = this.state;
     return (
       <body>
-      <div className='app'>
-
-        <div className="topnav">
-          <a className="active" href="http://localhost:3000">DEMO</a>
-          <div className="search-container">
-
+        <div className='app'>
+          <div className="topnav">
+            <a className="active" href="http://localhost:3000">DEMO</a>
+            <div className="search-container">
               <div id="searchInContainer">
                   <input type="radio" name="check" value="normal" id="searchSite" 
                     checked={this.state.selectedOption === "normal"} 
@@ -177,51 +172,38 @@ class App extends Component {
               </div> 
               <input type="text" placeholder="Buscar.." name="search" className="searchBar" onChange={(e) => this.setState({ busqueda2: e.target.value })} value={busqueda2}></input>
               <button type="submit" onClick={() => this.searchProduct(busqueda2, this.state.selectedOption)}><i className="fa fa-search"></i></button>
-
+            </div>
           </div>
-        </div>
-
-      <div >
-      
-
-
-
-  
-
-
-
-      <div className="card text-center m-3">
-        <div className="card-body">
-          Mi busqueda fue: {totalReactPackages != null ? totalReactPackages.query : totalReactPackages}
-        </div>
-
-        <div className="container mt-5 mb-5">
-          <div className="d-flex justify-content-center row">
-              <div className="col-md-10" id="col-md-10">
-                <ul>
-                  {totalReactPackages!=null ?
-                    totalReactPackages.results.map((e) => 
-                      <Product 
-                        title={e.title}
-                        thumbnail={e.thumbnail}
-                        permalink={e.permalink}
-                        price={e.price}
-                        free_shipping={e.shipping.free_shipping}
-                        id={e.id}
-                      />
-                    ) :
-                    null
-                  }
-                </ul>
+          <div >
+            <div className="card text-center m-3">
+              <div className="card-body">
+                Mi busqueda fue: {totalReactPackages != null ? totalReactPackages.query : totalReactPackages}
               </div>
+              <div className="container mt-5 mb-5">
+                <div className="d-flex justify-content-center row">
+                  <div className="col-md-10" id="col-md-10">
+                    <ul>
+                      {totalReactPackages!=null ?
+                        totalReactPackages.results.map((e) => 
+                          <Product 
+                            title={e.title}
+                            thumbnail={e.thumbnail}
+                            permalink={e.permalink}
+                            price={e.price}
+                            free_shipping={e.shipping.free_shipping}
+                            id={e.id}
+                          />
+                        ) :
+                          null
+                        }
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        
-      </div>
-      
-    
-      </div>
-      </div>    </body>
+        </div>    
+      </body>
     );
   }
 
