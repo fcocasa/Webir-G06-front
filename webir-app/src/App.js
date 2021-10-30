@@ -38,11 +38,19 @@ class Product extends Component {
   }
 
   sendSuscription(email, sku, dropPrice) {
+    let regexToMatchMLU = /\d+/;
+    var skuNumber = regexToMatchMLU.exec(sku);
+    var req = {
+      email:email,
+      sku:skuNumber[0],
+      drop_price: parseInt(dropPrice)
+    };
+    var newPrice = JSON.stringify(req);
     const requestOptions = {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, sku: sku, drop_price: parseInt(dropPrice), drop_discount: 0 })
+      body: newPrice
     };
     fetch('http://localhost:5000/product', requestOptions)
       .then(async response => {
@@ -132,8 +140,13 @@ class App extends Component {
     } else {
       let regexToMatchMLU = /MLU-\d+/;
       var arr = regexToMatchMLU.exec(busqueda);
+      if (arr == null) { 
+        regexToMatchMLU = /MLU\d+/;
+        arr = regexToMatchMLU.exec(busqueda);
+      } 
       if (arr) {
-        let mluNumber = arr[0].slice(4, arr[0].length);
+        let mlu = arr[0].replace('-', '')
+        let mluNumber = mlu.slice(3, arr[0].length);
         fetch('https://api.mercadolibre.com/items/MLU'+mluNumber)
           .then(response => response.json())
           .then(data => this.setState({ totalReactPackages: {results:[data]} }));
