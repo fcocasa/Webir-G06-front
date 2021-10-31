@@ -38,6 +38,7 @@ class Product extends Component {
   }
 
   sendSuscription(email, sku, dropPrice) {
+    this.setState({email:'', precio:''})
     let regexToMatchMLU = /\d+/;
     var skuNumber = regexToMatchMLU.exec(sku);
     var req = {
@@ -56,7 +57,6 @@ class Product extends Component {
       .then(async response => {
           const isJson = response.headers.get('content-type')?.includes('application/json');
           const data = isJson && await response.json();
-
           if (response.ok) {
             this.setState({ requestResult: "Operacion exitosa", showPopup:true })
           } else {
