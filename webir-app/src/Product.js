@@ -14,10 +14,10 @@ export default class Product extends Component {
       id: null,
       showResult: false,
       requestResult: null,
-      currencyId:"UYU",
+      currencyId: "UYU",
       country: null,
       state: null,
-      city: null
+      city: null,
     };
   }
 
@@ -48,9 +48,7 @@ export default class Product extends Component {
     console.log(requestOptions);
     fetch("https://webir-g06.herokuapp.com/product", requestOptions)
       .then(async (response) => {
-        const isJson = response.headers
-          .get("content-type")
-          ?.includes("application/json");
+        const isJson = response.headers.get("content-type")?.includes("application/json");
         const data = isJson && (await response.json());
         if (response.ok) {
           this.setState({
@@ -122,19 +120,21 @@ export default class Product extends Component {
               <h4 className="mr-1">
                 {this.props.currency} {this.props.price}
               </h4>
-              {(this.props.original_price != null) ?
-              <div>
-                <h6 className="text-success textMargin">
-                  <span className="textStyle">{100-Math.floor((parseInt(this.props.price)*100)/parseInt(this.props.original_price))}% OFF</span>
-                </h6> 
-              <span className="strike-text">
-                {" "}
-                {this.props.currency}
-                {" "}
-                {this.props.original_price}
-              </span> </div>: 
-              ""}
-              
+              {this.props.original_price != null ? (
+                <div>
+                  <h6 className="text-success textMargin">
+                    <span className="textStyle">
+                      {100 - Math.floor((parseInt(this.props.price) * 100) / parseInt(this.props.original_price))}% OFF
+                    </span>
+                  </h6>
+                  <span className="strike-text">
+                    {" "}
+                    {this.props.currency} {this.props.original_price}
+                  </span>{" "}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             <h6 className="text-success">
               {this.props.free_shipping != null && this.props.free_shipping ? (
@@ -160,7 +160,7 @@ export default class Product extends Component {
                     this.setState({
                       precio: this.props.price,
                       notificationType: "any_drop",
-                      currencyId: this.props.currency
+                      currencyId: this.props.currency,
                     });
                   else this.setState({ notificationType: e.target.value });
                 }}
@@ -168,12 +168,8 @@ export default class Product extends Component {
                 style={{ maxWidth: "100%" }}
                 placeholder="Tipo de notificacion"
               >
-                <option value="drop_price">
-                  Notificar si baja a menos de...
-                </option>
-                <option value="any_drop">
-                  Notificar ante cualquier baja de precio
-                </option>
+                <option value="drop_price">Notificar si baja a menos de...</option>
+                <option value="any_drop">Notificar ante cualquier baja de precio</option>
               </select>
               <div className="block-price-currency">
                 <select
@@ -189,12 +185,8 @@ export default class Product extends Component {
                   className="currency-combo-position"
                   disabled={this.state.notificationType === "any_drop"}
                 >
-                  <option value="UYU">
-                    Pesos UY
-                  </option>
-                  <option value="USD">
-                    Dolares
-                  </option>
+                  <option value="UYU">Pesos UY</option>
+                  <option value="USD">Dolares</option>
                 </select>
                 <input
                   onChange={(e) => this.setState({ precio: e.target.value })}
@@ -207,17 +199,24 @@ export default class Product extends Component {
               </div>
 
               <button
-                onClick={() =>
-                  this.sendSuscription(email, this.props.id, precio, currencyId)
-                }
+                onClick={() => this.sendSuscription(email, this.props.id, precio, currencyId)}
                 className="btn btn-primary btn-sm"
                 type="button"
               >
                 Suscribirse al producto
               </button>
-              <div className={(this.state.showResult) ? (this.state.requestResult == "Operacion exitosa") ? "successful-operation" : "operation-failed" : "hidden"}>
+              <div
+                className={
+                  this.state.showResult
+                    ? this.state.requestResult == "Operacion exitosa"
+                      ? "successful-operation"
+                      : "operation-failed"
+                    : "hidden"
+                }
+              >
                 <p>
-                  {this.state.requestResult}<br></br>
+                  {this.state.requestResult}
+                  <br></br>
                 </p>
               </div>
             </div>

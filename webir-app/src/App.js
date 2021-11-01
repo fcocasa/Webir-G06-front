@@ -1,18 +1,6 @@
 import "./App.css";
 import React, { Component } from "react";
 import Product from "./Product";
-class Popup extends React.Component {
-  render() {
-    return (
-      <div className="popup">
-        <div className="popup_inner">
-          <h1>{this.props.text}</h1>
-          <button onClick={this.props.closePopup}>close me</button>
-        </div>
-      </div>
-    );
-  }
-}
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +21,7 @@ class App extends Component {
   }
 
   searchProduct(busqueda, tipo) {
-    if (tipo == "normal") {
+    if (tipo === "normal") {
       fetch("https://api.mercadolibre.com/sites/MLU/search?q=" + busqueda)
         .then((response) => response.json())
         .then((data) => this.setState({ totalReactPackages: data }));
@@ -49,9 +37,7 @@ class App extends Component {
         let mluNumber = mlu.slice(3, arr[0].length);
         fetch("https://api.mercadolibre.com/items/MLU" + mluNumber)
           .then((response) => response.json())
-          .then((data) =>
-            this.setState({ totalReactPackages: { results: [data] } })
-          );
+          .then((data) => this.setState({ totalReactPackages: { results: [data] } }));
       } else {
         this.setState({ totalReactPackages: null });
       }
@@ -108,12 +94,7 @@ class App extends Component {
                   onChange={(e) => this.setState({ busqueda2: e.target.value })}
                   value={busqueda2}
                 ></input>
-                <button
-                  type="submit"
-                  onClick={() =>
-                    this.searchProduct(busqueda2, this.state.selectedOption)
-                  }
-                >
+                <button type="submit" onClick={() => this.searchProduct(busqueda2, this.state.selectedOption)}>
                   <i className="fa fa-search"></i>
                 </button>
               </div>
@@ -122,10 +103,7 @@ class App extends Component {
           <div>
             <div className="card text-center m-3">
               <div className="card-body">
-                Mi busqueda fue:{" "}
-                {totalReactPackages != null
-                  ? totalReactPackages.query
-                  : totalReactPackages}
+                Mi busqueda fue: {totalReactPackages != null ? totalReactPackages.query : totalReactPackages}
               </div>
               <div className="container mt-5 mb-5">
                 <div className="d-flex justify-content-center row">
@@ -143,7 +121,7 @@ class App extends Component {
                               free_shipping={e.shipping.free_shipping}
                               id={e.id}
                               original_price={e.original_price}
-                              country='Uruguay'
+                              country="Uruguay"
                               state={e.address.state_name}
                               city={e.address.city_name}
                             />
