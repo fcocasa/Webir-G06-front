@@ -14,6 +14,7 @@ export default class Product extends Component {
       id: null,
       showPopup: false,
       requestResult: null,
+      currencyId:"UYU"
     };
   }
 
@@ -23,7 +24,7 @@ export default class Product extends Component {
     });
   }
 
-  sendSuscription(email, sku, dropPrice) {
+  sendSuscription(email, sku, dropPrice, currencyId) {
     this.setState({ email: "", precio: "" });
     let regexToMatchMLU = /\d+/;
     var skuNumber = regexToMatchMLU.exec(sku);
@@ -31,6 +32,7 @@ export default class Product extends Component {
       email: email,
       sku: skuNumber[0],
       drop_price: parseInt(dropPrice),
+      currency_id: currencyId,
     };
     const requestOptions = {
       method: "POST",
@@ -69,6 +71,7 @@ export default class Product extends Component {
 
   render() {
     const { notificationType } = this.state;
+    const { currencyId } = this.state;
     const { email } = this.state;
     const { precio } = this.state;
     console.log(this.state.price);
@@ -152,6 +155,7 @@ export default class Product extends Component {
                     this.setState({
                       precio: this.props.price,
                       notificationType: "any_drop",
+                      currencyId: this.props.currency
                     });
                   else this.setState({ notificationType: e.target.value });
                 }}
@@ -167,6 +171,26 @@ export default class Product extends Component {
                 </option>
               </select>
               <div>
+                <select
+                  onChange={(e) => {
+                    if (e.target.value === "USD")
+                      this.setState({
+                        currencyId: "USD",
+                      });
+                    else this.setState({ currencyId: "UYU" });
+                  }}
+                  value={currencyId}
+                  style={{ maxWidth: "100%" }}
+                  placeholder="Moneda"
+                  disabled={this.state.notificationType === "any_drop"}
+                >
+                  <option value="UYU">
+                    Pesos uruguayos
+                  </option>
+                  <option value="USD">
+                    Dolares
+                  </option>
+                </select>
                 <input
                   onChange={(e) => this.setState({ precio: e.target.value })}
                   value={precio}
@@ -179,7 +203,7 @@ export default class Product extends Component {
 
               <button
                 onClick={() =>
-                  this.sendSuscription(email, this.props.id, precio)
+                  this.sendSuscription(email, this.props.id, precio, currencyId)
                 }
                 className="btn btn-primary btn-sm"
                 type="button"
