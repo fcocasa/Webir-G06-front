@@ -142,6 +142,7 @@ class App extends Component {
                               currency={e.currency_id}
                               free_shipping={e.shipping.free_shipping}
                               id={e.id}
+                              original_price={e.original_price}
                             />
                           ))
                         : null}

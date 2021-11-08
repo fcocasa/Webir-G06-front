@@ -330,3 +330,8 @@ html, body, .app {
   margin: auto;
   background: white;
 }
+
+.textStyle{
+  font-size:10px;
+  color:green;
+}
