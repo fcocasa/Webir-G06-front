@@ -115,18 +115,18 @@ export default class Product extends Component {
                 {this.props.currency} {this.props.price}
               </h4>
               {(this.props.original_price != null) ?
+              <div>
+                <h6 className="text-success textMargin">
+                  <span className="textStyle">{100-Math.floor((parseInt(this.props.price)*100)/parseInt(this.props.original_price))}% OFF</span>
+                </h6> 
               <span className="strike-text">
                 {" "}
                 {this.props.currency}
                 {" "}
                 {this.props.original_price}
-              </span> : 
+              </span> </div>: 
               ""}
-              {(this.props.original_price != null) ?
-                <h6 className="text-success">
-                  <span className="textStyle">{100-Math.floor((parseInt(this.props.price)*100)/parseInt(this.props.original_price))}% OFF</span>
-                </h6> : 
-              ""}
+              
             </div>
             <h6 className="text-success">
               {this.props.free_shipping != null && this.props.free_shipping ? (

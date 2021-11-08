@@ -331,7 +331,11 @@ html, body, .app {
   background: white;
 }
 
-.textStyle{
+.textMargin {
+  margin-bottom: 0 !important;
+}
+
+.textStyle {
   font-size:10px;
   color:green;
 }
