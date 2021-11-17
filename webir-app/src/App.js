@@ -143,6 +143,9 @@ class App extends Component {
                               free_shipping={e.shipping.free_shipping}
                               id={e.id}
                               original_price={e.original_price}
+                              country='Uruguay'
+                              state={e.address.state_name}
+                              city={e.address.city_name}
                             />
                           ))
                         : null}

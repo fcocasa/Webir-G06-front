@@ -12,15 +12,18 @@ export default class Product extends Component {
       price: null,
       free_shipping: null,
       id: null,
-      showPopup: false,
+      showResult: false,
       requestResult: null,
-      currencyId:"UYU"
+      currencyId:"UYU",
+      country: null,
+      state: null,
+      city: null
     };
   }
 
   togglePopup() {
     this.setState({
-      showPopup: !this.state.showPopup,
+      showResult: !this.state.showResult,
     });
   }
 
@@ -52,19 +55,19 @@ export default class Product extends Component {
         if (response.ok) {
           this.setState({
             requestResult: "Operacion exitosa",
-            showPopup: true,
+            showResult: true,
           });
         } else {
           this.setState({
             requestResult: "Error de operación",
-            showPopup: true,
+            showResult: true,
           });
           const error = (data && data.message) || response.status;
           return Promise.reject(error);
         }
       })
       .catch((error) => {
-        this.setState({ requestResult: "Error de operación", showPopup: true });
+        this.setState({ requestResult: "Error de operación", showResult: true });
         console.error("There was an error!", error);
       });
   }
@@ -89,9 +92,11 @@ export default class Product extends Component {
             <h5>{this.props.title}</h5>
             <div className="d-flex flex-row"></div>
             <div className="mt-1 mb-1 spec-1">
-              <span>Alguna propiedad?</span>
+              <span>{this.props.country}</span>
               <span className="dot"></span>
-              <span>Otra propiedad?</span>
+              <span>{this.props.state}</span>
+              <span className="dot"></span>
+              <span>{this.props.city}</span>
             </div>
             <div className="mt-1 mb-1 spec-1">
               <span>Departamento?</span>
@@ -170,7 +175,7 @@ export default class Product extends Component {
                   Notificar ante cualquier baja de precio
                 </option>
               </select>
-              <div>
+              <div className="block-price-currency">
                 <select
                   onChange={(e) => {
                     if (e.target.value === "USD")
@@ -180,12 +185,12 @@ export default class Product extends Component {
                     else this.setState({ currencyId: "UYU" });
                   }}
                   value={currencyId}
-                  style={{ maxWidth: "100%" }}
                   placeholder="Moneda"
+                  className="currency-combo-position"
                   disabled={this.state.notificationType === "any_drop"}
                 >
                   <option value="UYU">
-                    Pesos uruguayos
+                    Pesos UY
                   </option>
                   <option value="USD">
                     Dolares
@@ -194,7 +199,7 @@ export default class Product extends Component {
                 <input
                   onChange={(e) => this.setState({ precio: e.target.value })}
                   value={precio}
-                  className="search"
+                  className="search input-drop-price-position"
                   disabled={this.state.notificationType === "any_drop"}
                   type="number"
                   placeholder="Precio"
@@ -210,6 +215,11 @@ export default class Product extends Component {
               >
                 Suscribirse al producto
               </button>
+              <div className={(this.state.showResult) ? (this.state.requestResult == "Operacion exitosa") ? "successful-operation" : "operation-failed" : "hidden"}>
+                <p>
+                  {this.state.requestResult}<br></br>
+                </p>
+              </div>
             </div>
           </div>
         </div>
