@@ -52,7 +52,6 @@ class App extends Component {
 
   render() {
     const { totalReactPackages } = this.state;
-    console.log(totalReactPackages);
     const { busqueda2 } = this.state;
     return (
       <body>
@@ -122,8 +121,8 @@ class App extends Component {
                               id={e.id}
                               original_price={e.original_price}
                               country="Uruguay"
-                              state={e.address.state_name}
-                              city={e.address.city_name}
+                              state={e.address?.state_name || ""}
+                              city={e.address?.city_name || ""}
                             />
                           ))
                         : null}

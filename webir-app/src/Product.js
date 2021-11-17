@@ -75,7 +75,6 @@ export default class Product extends Component {
     const { currencyId } = this.state;
     const { email } = this.state;
     const { precio } = this.state;
-    console.log(this.state.price);
     return (
       <li>
         <div className="row p-2 bg-white border rounded spaceItem">
@@ -208,7 +207,7 @@ export default class Product extends Component {
               <div
                 className={
                   this.state.showResult
-                    ? this.state.requestResult == "Operacion exitosa"
+                    ? this.state.requestResult === "Operacion exitosa"
                       ? "successful-operation"
                       : "operation-failed"
                     : "hidden"
